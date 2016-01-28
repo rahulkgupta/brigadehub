@@ -26,7 +26,7 @@ var _ = require('lodash')
  *
  * Default path: .env
  */
-dotenv.load({ path: '.env.example' })
+dotenv.load({ path: '.env' })
 
 /**
  * Controllers (route handlers).
@@ -54,8 +54,6 @@ var app = express()
 /**
  * Connect to MongoDB.
  */
- console.log('process.env.MONGODB ',process.env.MONGODB)
- console.log('process.env.MONGOLAB_URI',process.env.MONGOLAB_URI)
 mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI)
 mongoose.connection.on('error', function () {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.')
