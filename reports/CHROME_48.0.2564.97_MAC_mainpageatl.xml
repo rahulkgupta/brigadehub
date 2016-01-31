@@ -5,9 +5,17 @@
 
   <testsuite name="mainpageatl"
     errors="0" failures="0" hostname="" id="" package="mainpageatl" skipped="0"
-    tests="1" time="7.474" timestamp="Sun, 31 Jan 2016 22:16:35 GMT">
+    tests="1" time="5.521" timestamp="Sun, 31 Jan 2016 22:46:20 GMT">
   
-    <testcase name="Demo test Google" time="7.474" assertions="4">
+    <testcase name="Demo atl theme CFA" time="5.521" assertions="8">
+
+    
+
+    
+
+    
+
+    
 
     
 
