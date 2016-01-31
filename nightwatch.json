@@ -11,7 +11,7 @@
     "server_path" : "lib/selenium-server-standalone-2.50.1.jar",
     "log_path" : "",
     "host" : "127.0.0.1",
-    "port" : 6666,
+    "port" : 23400,
     "cli_args" : {
       "webdriver.chrome.driver" : "",
       "webdriver.ie.driver" : ""
@@ -21,7 +21,7 @@
   "test_settings" : {
     "default" : {
       "launch_url" : "http://localhost",
-      "selenium_port"  : 6666,
+      "selenium_port"  : 23400,
       "selenium_host"  : "localhost",
       "silent": true,
       "screenshots" : {
