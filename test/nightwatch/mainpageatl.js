@@ -29,6 +29,25 @@ module.exports = {
       .click("a[href='/brigade']")
       .assert.containsText('.page-header', "Brigade Information")
   },
+    'Account update test' : function(browser){
+    browser
+      .click('.dropdown')
+      .click("a[href='/account']")
+      .clearValue("input#email")
+      .clearValue("input#name")
+      .clearValue("input#location")
+      .clearValue("input#website")
+      .setValue("input#email", "pizza123@pizza.com")
+      .setValue("input#name", "pizzaman")
+      .setValue("input#location", "pizza hut")
+      .setValue("input#website", "www.pizzahut.com")
+      .click('.btn-primary')
+      .assert.value("input#name", "pizzaman")
+      .assert.value("input#location", "pizza hut")
+      .assert.value("input#website", "www.pizzahut.com")
+      .assert.value("input#email", "pizza123@pizza.com")
+
+  },
   'Demo atl theme CFA' : function (browser) {
     browser //tests mainpage loading properly
       .assert.containsText('.lead', "We're a bunch of civic-minded technologists, designers, and topic experts using our skills to improve Example and the world")

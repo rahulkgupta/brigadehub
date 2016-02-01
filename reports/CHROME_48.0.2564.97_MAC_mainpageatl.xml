@@ -1,40 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
             failures="0"
-            tests="6">
+            tests="7">
 
   <testsuite name="mainpageatl"
     errors="0" failures="0" hostname="" id="" package="mainpageatl" skipped="0"
-    tests="6" time="28.75" timestamp="Mon, 01 Feb 2016 05:38:06 GMT">
+    tests="7" time="28.58" timestamp="Mon, 01 Feb 2016 06:22:33 GMT">
   
-    <testcase name="Git Hub OAuth login" time="12.43" assertions="2">
+    <testcase name="Git Hub OAuth login" time="10.04" assertions="2">
 
     
 
     
     </testcase>
   
-    <testcase name="Logged-in dropdown menu links test" time="2.630" assertions="5">
+    <testcase name="Logged-in dropdown menu links test" time="2.981" assertions="5">
 
     
 
     
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="Demo atl theme CFA" time="1.002" assertions="2">
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="Mail list signup test" time="3.265" assertions="3">
 
     
 
@@ -43,7 +27,11 @@
     
     </testcase>
   
-    <testcase name="Slack test" time="7.025" assertions="3">
+    <testcase name="Account update test" time="2.305" assertions="5">
+
+    
+
+    
 
     
 
@@ -52,7 +40,32 @@
     
     </testcase>
   
-    <testcase name="navbar" time="2.394" assertions="5">
+    <testcase name="Demo atl theme CFA" time="0.8430" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Mail list signup test" time="2.516" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Slack test" time="7.098" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="navbar" time="2.795" assertions="5">
 
     
 
