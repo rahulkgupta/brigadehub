@@ -1,6 +1,10 @@
 module.exports = {
   beforeEach : function(browser) {
     browser //switch browser to mainpage before each test
+      .windowHandles(function(result) {
+        var home = result.value[0];
+        browser.switchWindow(home);
+      })
       .url('localhost:5465')
       .waitForElementVisible('body', 1000)
       .click(".navbar-brand")
@@ -46,7 +50,6 @@ module.exports = {
       .assert.value("input#location", "pizza hut")
       .assert.value("input#website", "www.pizzahut.com")
       .assert.value("input#email", "pizza123@pizza.com")
-
   },
   'Demo atl theme CFA' : function (browser) {
     browser //tests mainpage loading properly
@@ -62,6 +65,7 @@ module.exports = {
       })
       .waitForElementVisible('#subscribeFormWelcome', 5000)
       .assert.containsText('.masthead', "Website Signup")
+      .closeWindow();
   },
 
   'Slack test' : function(browser) {
@@ -72,11 +76,12 @@ module.exports = {
         .click(".slack-btn")
         .pause(3000)
         .windowHandles(function(result) {
-          var slackpage = result.value[2];
+          var slackpage = result.value[1];
           browser.switchWindow(slackpage);
         })
         .assert.title('Join sfbrigade on Slack!')
         .frame(null)
+      .closeWindow();
   },
 
   "navbar" : function(browser){
