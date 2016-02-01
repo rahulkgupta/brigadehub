@@ -9,7 +9,7 @@ module.exports = {
       .waitForElementVisible('body', 1000)
       .click(".navbar-brand")
   },
-  'Git Hub OAuth login' : function (browser){
+  'Git Hub OAuth login test' : function (browser){
     browser //tests GitHub OAuth login
       .click("a[href='/login']")
       .click(".btn-github")
@@ -91,6 +91,12 @@ module.exports = {
       .assert.containsText('.page-header', "Blog Posts")
       .click('a[href="/about"]')
       .assert.containsText('.page-header', "About Us")
+  },
+  'User logout test' : function(browser){
+    browser //logs the user out successfully
+      .click('.dropdown')
+      .click("a[href='/logout']")
+      .assert.containsText('ul.navbar-right li', "LOGIN")
   },
   after : function(browser) {
     //closes test browser
