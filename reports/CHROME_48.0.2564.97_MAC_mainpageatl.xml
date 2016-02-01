@@ -5,16 +5,16 @@
 
   <testsuite name="mainpageatl"
     errors="0" failures="0" hostname="" id="" package="mainpageatl" skipped="0"
-    tests="3" time="12.07" timestamp="Mon, 01 Feb 2016 01:55:00 GMT">
+    tests="3" time="11.91" timestamp="Mon, 01 Feb 2016 01:59:11 GMT">
   
-    <testcase name="Demo atl theme CFA" time="3.753" assertions="2">
+    <testcase name="Demo atl theme CFA" time="3.963" assertions="2">
 
     
 
     
     </testcase>
   
-    <testcase name="Mail list signup test" time="2.053" assertions="3">
+    <testcase name="Mail list signup test" time="1.677" assertions="3">
 
     
 
@@ -23,7 +23,7 @@
     
     </testcase>
   
-    <testcase name="Slack test" time="6.260" assertions="3">
+    <testcase name="Slack test" time="6.267" assertions="3">
 
     
 
