@@ -5,7 +5,16 @@ module.exports = {
       .waitForElementVisible('body', 1000)
       .click(".navbar-brand")
   },
+  'Git Hub OAuth login' : function (browser){
+    browser
+      .click("a[href='/login']")
+      .click(".btn-github")
+      .setValue("input#login_field", "testman444" )
+      .setValue("input#password", "testtest123")
+      .waitForElementVisible('.btn-block', 1000)
+      .click('.btn-block')
 
+  },
   'Demo atl theme CFA' : function (browser) {
     browser //tests mainpage loading properly
       .assert.containsText('.lead', "We're a bunch of civic-minded technologists, designers, and topic experts using our skills to improve Example and the world")
