@@ -8,7 +8,6 @@ module.exports = {
 
   'Demo atl theme CFA' : function (browser) {
     browser //tests mainpage loading properly
-      .waitForElementVisible('body', 1000)
       .assert.containsText('.lead', "We're a bunch of civic-minded technologists, designers, and topic experts using our skills to improve Example and the world")
   },
 
@@ -36,6 +35,18 @@ module.exports = {
         })
         .assert.title('Join sfbrigade on Slack!')
         .frame(null)
+  },
+
+  "navbar" : function(browser){
+    browser
+      .click('a[href="/events"]')
+      .assert.elementPresent("#events-calendar")
+      .click('a[href="/projects"]')
+      .assert.containsText('.page-header', "All Projects")
+      .click('a[href="/blog"]')
+      .assert.containsText('.page-header', "Blog Posts")
+      .click('a[href="/about"]')
+      .assert.containsText('.page-header', "About Us")
   },
 
   after : function(browser) {
