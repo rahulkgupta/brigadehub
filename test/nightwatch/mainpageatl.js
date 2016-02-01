@@ -13,7 +13,21 @@ module.exports = {
       .setValue("input#password", "testtest123")
       .waitForElementVisible('.btn-block', 1000)
       .click('.btn-block')
-
+  },
+  'Logged-in dropdown menu links test' : function(browser){
+    browser
+      .click('.dropdown')
+      .click("a[href='/account']")
+      .assert.containsText('.page-header', "Profile Information")
+      .click('.dropdown')
+      .click("a[href='/blog/manage']")
+      .assert.containsText('.page-header', "Manage Blog Posts")
+      .click('.dropdown')
+      .click("a[href='/projects/manage']")
+      .assert.containsText('.page-header', "Manage Projects")
+      .click('.dropdown')
+      .click("a[href='/brigade']")
+      .assert.containsText('.page-header', "Brigade Information")
   },
   'Demo atl theme CFA' : function (browser) {
     browser //tests mainpage loading properly
