@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites errors="0"
+<testsuites errors="2"
             failures="0"
             tests="3">
 
   <testsuite name="mainpageatl"
-    errors="0" failures="0" hostname="" id="" package="mainpageatl" skipped="0"
-    tests="3" time="11.91" timestamp="Mon, 01 Feb 2016 01:59:11 GMT">
+    errors="2" failures="0" hostname="" id="" package="mainpageatl" skipped="1"
+    tests="3" time="5.242" timestamp="Mon, 01 Feb 2016 02:24:24 GMT">
   
-    <testcase name="Demo atl theme CFA" time="3.963" assertions="2">
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="Mail list signup test" time="1.677" assertions="3">
+    <testcase name="Demo atl theme CFA" time="4.255" assertions="3">
 
     
 
@@ -22,16 +15,49 @@
 
     
     </testcase>
+      <system-err>
+          Error while running [Mainpageatl / Mail list signup test]:
+
+  TypeError: browser.close is not a function
+    at Object.&lt;anonymous&gt; (/Users/Juxtaposeidon/Desktop/brigadehub/test/nightwatch/mainpageatl.js:21:17)
+    at HttpRequest.&lt;anonymous&gt; (/usr/local/lib/node_modules/nightwatch/lib/index.js:333:20)
+    at emitTwo (events.js:87:13)
+    at HttpRequest.emit (events.js:172:7)
+    at HttpRequest.&lt;anonymous&gt; (/usr/local/lib/node_modules/nightwatch/lib/index.js:361:15)
+    at emitThree (events.js:97:13)
+    at HttpRequest.emit (events.js:175:7)
+    at IncomingMessage.&lt;anonymous&gt; (/usr/local/lib/node_modules/nightwatch/lib/http/request.js:155:16)
+    at emitNone (events.js:72:20)
+    at IncomingMessage.emit (events.js:166:7)
+      </system-err>
   
-    <testcase name="Slack test" time="6.267" assertions="3">
-
-    
-
-    
+    <testcase name="Mail list signup test" time="0.9870" assertions="1">
 
     
     </testcase>
+      <system-err>
+          Error while running [Mainpageatl / Mail list signup test]:
+
+  TypeError: browser.close is not a function
+    at Object.&lt;anonymous&gt; (/Users/Juxtaposeidon/Desktop/brigadehub/test/nightwatch/mainpageatl.js:21:17)
+    at HttpRequest.&lt;anonymous&gt; (/usr/local/lib/node_modules/nightwatch/lib/index.js:333:20)
+    at emitTwo (events.js:87:13)
+    at HttpRequest.emit (events.js:172:7)
+    at HttpRequest.&lt;anonymous&gt; (/usr/local/lib/node_modules/nightwatch/lib/index.js:361:15)
+    at emitThree (events.js:97:13)
+    at HttpRequest.emit (events.js:175:7)
+    at IncomingMessage.&lt;anonymous&gt; (/usr/local/lib/node_modules/nightwatch/lib/http/request.js:155:16)
+    at emitNone (events.js:72:20)
+    at IncomingMessage.emit (events.js:166:7)
+      </system-err>
   
+  
+    
+    <testcase
+      name="Slack test">
+      <skipped />
+    </testcase>
+    
   
   </testsuite>
 </testsuites>
