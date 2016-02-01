@@ -10,7 +10,7 @@ module.exports = {
       .click(".navbar-brand")
   },
   'Git Hub OAuth login' : function (browser){
-    browser
+    browser //tests GitHub OAuth login
       .click("a[href='/login']")
       .click(".btn-github")
       .setValue("input#login_field", "testman444" )
@@ -19,7 +19,7 @@ module.exports = {
       .click('.btn-block')
   },
   'Logged-in dropdown menu links test' : function(browser){
-    browser
+    browser //cycles through dropdown menu links
       .click('.dropdown')
       .click("a[href='/account']")
       .assert.containsText('.page-header', "Profile Information")
@@ -34,7 +34,7 @@ module.exports = {
       .assert.containsText('.page-header', "Brigade Information")
   },
     'Account update test' : function(browser){
-    browser
+    browser //checks to make sure accounts update properly
       .click('.dropdown')
       .click("a[href='/account']")
       .clearValue("input#email")
@@ -55,7 +55,6 @@ module.exports = {
     browser //tests mainpage loading properly
       .assert.containsText('.lead', "We're a bunch of civic-minded technologists, designers, and topic experts using our skills to improve Example and the world")
   },
-
   'Mail list signup test' : function(browser){
     browser //tests signup button link
       .click("#mc-embedded-subscribe")
@@ -67,11 +66,10 @@ module.exports = {
       .assert.containsText('.masthead', "Website Signup")
       .closeWindow();
   },
-
   'Slack test' : function(browser) {
     browser //tests slack frame link
       .waitForElementVisible('.__slackin', 5000)
-      .pause(3000)
+      .pause(1000)
       .frame(0)
         .click(".slack-btn")
         .pause(3000)
@@ -83,9 +81,8 @@ module.exports = {
         .frame(null)
       .closeWindow();
   },
-
   "navbar" : function(browser){
-    browser
+    browser //cyces through links in navbar
       .click('a[href="/events"]')
       .assert.elementPresent("#events-calendar")
       .click('a[href="/projects"]')
@@ -95,7 +92,6 @@ module.exports = {
       .click('a[href="/about"]')
       .assert.containsText('.page-header', "About Us")
   },
-
   after : function(browser) {
     //closes test browser
     browser.end();
