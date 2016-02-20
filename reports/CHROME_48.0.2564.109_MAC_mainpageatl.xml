@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="2"
+            failures="1"
+            tests="8">
+
+  <testsuite name="mainpageatl"
+    errors="2" failures="1" hostname="" id="" package="mainpageatl" skipped="2"
+    tests="8" time="418.2" timestamp="Sun, 14 Feb 2016 22:52:51 GMT">
+  
+    <testcase name="Git Hub OAuth login test" time="100.3" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+      <system-err>
+         ERROR: Unable to locate element: &quot;.slack-btn&quot; using: css selector
+      </system-err>
+  
+    <testcase name="Logged-in dropdown menu links test" time="63.23" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+      <system-err>
+         ERROR: Unable to locate element: &quot;.slack-btn&quot; using: css selector
+      </system-err>
+  
+    <testcase name="Account update test" time="62.79" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+      <system-err>
+         ERROR: Unable to locate element: &quot;.slack-btn&quot; using: css selector
+      </system-err>
+  
+    <testcase name="Demo atl theme CFA" time="61.46" assertions="2">
+
+    
+
+    
+    </testcase>
+      <system-err>
+         ERROR: Unable to locate element: &quot;.slack-btn&quot; using: css selector
+      </system-err>
+  
+    <testcase name="Mail list signup test" time="62.96" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+      <system-err>
+         ERROR: Unable to locate element: &quot;.slack-btn&quot; using: css selector
+      </system-err>
+  
+    <testcase name="Slack test" time="67.44" assertions="3">
+
+    
+
+      <failure message="Testing if the page title equals &quot;Join sfbrigade on Slack!&quot;.">    at Object.module.exports.Slack test (/Users/Juxtaposeidon/Desktop/brigadehub/test/nightwatch/mainpageatl.js:84:17)
+    at Module.call (/usr/local/lib/node_modules/nightwatch/lib/runner/module.js:63:34)
+    at /usr/local/lib/node_modules/nightwatch/lib/runner/testcase.js:97:29
+    at _fulfilled (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:834:54)
+    at self.promiseDispatch.done (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:863:30)
+    at Promise.promise.promiseDispatch (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:796:13)
+    at /usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:556:49
+    at runSingle (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:137:13)
+    at flush (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:125:13)
+    at doNTCallback0 (node.js:419:9)</failure>
+
+    
+    </testcase>
+      <system-err>
+         ERROR: Unable to locate element: &quot;.slack-btn&quot; using: css selector
+      </system-err>
+  
+  
+    
+    <testcase
+      name="navbar">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="User logout test">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>
