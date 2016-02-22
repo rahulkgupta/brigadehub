@@ -1,11 +1,10 @@
 'use strict'
-var db =require('./data/db')
+var db = require('./db');
 exports.up = function(next) {
-  db.insert({"Name":"test"})
+  db.brigadehub.insert({"Name":"testplease"})
   next();
 };
-
 exports.down = function(next) {
-  db.remove({"Name":"test"})
+  db.brigadehub.remove({"Name":"test"})
   next();
 };
