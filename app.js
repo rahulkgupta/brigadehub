@@ -19,6 +19,7 @@ var mongoose = require('mongoose')
 var passport = require('passport')
 var expressValidator = require('express-validator')
 var sass = require('node-sass-middleware')
+var ghost = require('ghost')
 /* var _ = require('lodash') */
 var fs = require('fs')
 
@@ -63,6 +64,19 @@ var passportConf = require('./config/passport')
  * Create Express server.
  */
 var app = express()
+
+/**
+ * Mount Ghost under /blog
+ */
+ghost({
+  config: path.join(__dirname, 'config.js')
+});
+
+ghost().then(function (ghostServer) {
+    app.use(ghostServer.config.paths.subdir, ghostServer.rootApp);
+
+    ghostServer.start(app);
+});
 
 /**
  * Connect to MongoDB.
@@ -191,20 +205,6 @@ app.get('/events/:eventId', eventsCtrl.getEventsID)
 app.post('/events/:eventId', passportConf.isAuthenticated, eventsCtrl.postEventsIDSettings)
 app.get('/events/:eventId/settings', passportConf.isAuthenticated, eventsCtrl.getEventsIDSettings)
 app.post('/events/:eventId/sync', passportConf.isAuthenticated, eventsCtrl.postEventsIDSync)
-
-/**
- * Blog routes.
- */
-app.get('/blog', blogCtrl.getBlog)
-app.get('/blog/manage', passportConf.isAuthenticated, blogCtrl.getBlogManage)
-app.post('/blog/manage', passportConf.isAuthenticated, blogCtrl.postBlogManage)
-app.post('/blog/sync', passportConf.isAuthenticated, blogCtrl.postBlogSync)
-app.get('/blog/new', passportConf.isAuthenticated, blogCtrl.getBlogNew)
-app.post('/blog/new', passportConf.isAuthenticated, blogCtrl.postBlogNew)
-app.get('/blog/:blogId', blogCtrl.getBlogID)
-app.post('/blog/:blogId', passportConf.isAuthenticated, blogCtrl.postBlogIDEdit)
-app.get('/blog/:blogId/edit', passportConf.isAuthenticated, blogCtrl.getBlogIDEdit)
-app.post('/blog/:blogId/sync', passportConf.isAuthenticated, blogCtrl.postBlogIDSync)
 
 /**
  * Users routes.
