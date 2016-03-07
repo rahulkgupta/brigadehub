@@ -1,12 +1,7 @@
 /**
  * Split into declaration and initialization for better startup performance.
  */
-
-var request
-
-var _ = require('lodash')
-var async = require('async')
-var querystring = require('querystring')
+var Events = require('../models/Events')
 
 module.exports = {
   /**
@@ -14,26 +9,25 @@ module.exports = {
    * List of Event examples.
    */
   getEvents: function (req, res) {
-    var events =  [
-        {
-            title  : 'event1',
-            start  : '2016-01-01'
-        },
-        {
-            title  : 'event2',
-            start  : '2016-01-05',
-            end    : '2016-01-07'
-        },
-        {
-            title  : 'event3',
-            start  : '2016-01-09T12:30:00',
-            allDay : false // will make the time show
+    var meetupid = 'www.meetup.com/Code-for-San-Francisco-Civic-Hack-Night/'.split('.com/')[1].replace(/\//g, '')
+    var url = 'https://api.meetup.com/2/events?&sign=true&photo-host=public&group_urlname=' + meetupid + '&page=50'
+    var aggregate = []
+    Events.fetchMeetupEvents(url).then(function (result) {
+      result.forEach(function (item) {
+        var event = {
+          title: item.name,
+          start: new Date(item.time + item.utc_offset)
         }
-    ]
-    res.render(req.locals.brigade.theme.slug+'/views/events/index', {
-      events: events,
-      title: 'Events',
-      brigade: req.locals.brigade
+        aggregate.push(event)
+      })
+
+      res.render(res.locals.brigade.theme.slug + '/views/events/index', {
+        events: aggregate,
+        title: 'Events',
+        brigade: res.locals.brigade
+      })
+    }, function (error) {
+      console.log(error)
     })
   },
   /**
@@ -41,9 +35,9 @@ module.exports = {
    * Manage Events.
    */
   getEventsManage: function (req, res) {
-    res.render(req.locals.brigade.theme.slug+'/views/events/manage', {
+    res.render(res.locals.brigade.theme.slug + '/views/events/manage', {
       title: 'Manage Events',
-      brigade: req.locals.brigade
+      brigade: res.locals.brigade
     })
   },
   /**
@@ -58,9 +52,9 @@ module.exports = {
    * New Events.
    */
   getEventsNew: function (req, res) {
-    res.render(req.locals.brigade.theme.slug+'/views/events/new', {
+    res.render(res.locals.brigade.theme.slug + '/views/events/new', {
       title: 'New Events',
-      brigade: req.locals.brigade
+      brigade: res.locals.brigade
     })
   },
   /**
@@ -76,10 +70,10 @@ module.exports = {
    * Display Event by ID.
    */
   getEventsID: function (req, res) {
-    res.render(req.locals.brigade.theme.slug+'/views/events/event', {
+    res.render(res.locals.brigade.theme.slug + '/views/events/event', {
       eventID: req.params.eventID,
       title: 'Events',
-      brigade: req.locals.brigade
+      brigade: res.locals.brigade
     })
   },
   /**
@@ -87,10 +81,10 @@ module.exports = {
    * IDSettings Events.
    */
   getEventsIDSettings: function (req, res) {
-    res.render(req.locals.brigade.theme.slug+'/views/events/settings', {
+    res.render(res.locals.brigade.theme.slug + '/views/events/settings', {
       eventID: req.params.eventID,
       title: 'IDSettings Events',
-      brigade: req.locals.brigade
+      brigade: res.locals.brigade
     })
   },
   /**
@@ -105,7 +99,7 @@ module.exports = {
    * Sync Events.
    */
   postEventsSync: function (req, res) {
-    res.redirect('Events/manage')
+    res.redirect('/events/manage')
   },
   /**
    * POST /events/:eventID/settings

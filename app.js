@@ -19,15 +19,28 @@ var mongoose = require('mongoose')
 var passport = require('passport')
 var expressValidator = require('express-validator')
 var sass = require('node-sass-middleware')
-var _ = require('lodash')
+/* var _ = require('lodash') */
+var fs = require('fs')
+
+var DB_INSTANTIATED
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  *
  * Default path: .env
  */
-dotenv.load({ path: '.env' })
-
+try {
+  var stats = fs.lstatSync(path.join(__dirname, '/.env'))
+  if (stats.isFile()) {
+    dotenv.load({ path: '.env' })
+  } else {
+    throw new Error('.env is not a file!')
+  }
+} catch (e) {
+  console.warn(e)
+  console.warn('.env file not found. Defaulting to sample. Please copy .env.example to .env and populate with your own credentials.')
+  dotenv.load({ path: '.env.example' })
+}
 /**
  * Controllers (route handlers).
  */
@@ -35,8 +48,8 @@ var homeCtrl = require('./controllers/home')
 var eventsCtrl = require('./controllers/events')
 var blogCtrl = require('./controllers/blog')
 var projectsCtrl = require('./controllers/projects')
-var aboutCtrl = require('./controllers/about')
-var userCtrl = require('./controllers/user')
+var contactCtrl = require('./controllers/contact')
+var usersCtrl = require('./controllers/user')
 var brigadeCtrl = require('./controllers/brigade')
 
 var brigadeDetails
@@ -88,12 +101,23 @@ app.use(session({
     autoReconnect: true
   })
 }))
+/* Check if db is connected */
+app.use(checkDB)
+function checkDB (req, res, next) {
+  if (!DB_INSTANTIATED) {
+    return setTimeout(function () {
+      checkDB(req, res, next)
+    }, 500)
+  }
+  next()
+}
 /* Attach brigade info to req */
 app.use(function (req, res, next) {
   Brigade.find({}, function (err, results) {
+    if (err) throw err
     if (!results.length) throw new Error('BRIGADE NOT IN DATABASE')
-    req.locals = req.locals || {}
-    req.locals.brigade = results[0]
+    res.locals = res.locals || {}
+    res.locals.brigade = results[0]
     next()
   })
 })
@@ -120,22 +144,22 @@ app.use(function (req, res, next) {
  * Primary app routes.
  */
 app.get('/', homeCtrl.index)
-app.get('/login', userCtrl.getLogin)
-app.post('/login', userCtrl.postLogin)
-app.get('/login/edit', passportConf.isAuthenticated, userCtrl.getLoginEdit)
-app.post('/login/edit', passportConf.isAuthenticated, userCtrl.postLoginEdit)
-app.get('/logout', userCtrl.getLogout)
-app.get('/about', aboutCtrl.getAbout)
-app.get('/about/edit', passportConf.isAuthenticated, aboutCtrl.getAboutEdit)
-app.post('/about', passportConf.isAuthenticated, aboutCtrl.postAbout)
+app.get('/login', usersCtrl.getLogin)
+app.post('/login', usersCtrl.postLogin)
+app.get('/login/edit', passportConf.isAuthenticated, usersCtrl.getLoginEdit)
+app.post('/login/edit', passportConf.isAuthenticated, usersCtrl.postLoginEdit)
+app.get('/logout', usersCtrl.getLogout)
+app.get('/contact', contactCtrl.getContact)
+app.get('/contact/edit', passportConf.isAuthenticated, contactCtrl.getContactEdit)
+app.post('/contact', passportConf.isAuthenticated, contactCtrl.postContact)
 
 /**
  * Meta Routes
  */
 
-app.get('/account', passportConf.isAuthenticated, userCtrl.getAccount)
-app.post('/account/profile', passportConf.isAuthenticated, userCtrl.postUpdateProfile)
-app.post('/account/delete', passportConf.isAuthenticated, userCtrl.postDeleteAccount)
+app.get('/account', passportConf.isAuthenticated, usersCtrl.getAccount)
+app.post('/account/profile', passportConf.isAuthenticated, usersCtrl.postUpdateProfile)
+app.post('/account/delete', passportConf.isAuthenticated, usersCtrl.postDeleteAccount)
 
 app.get('/brigade', passportConf.isAuthenticated, brigadeCtrl.getBrigade)
 app.post('/brigade', passportConf.isAuthenticated, brigadeCtrl.postBrigade)
@@ -182,19 +206,40 @@ app.post('/blog/:blogId', passportConf.isAuthenticated, blogCtrl.postBlogIDEdit)
 app.get('/blog/:blogId/edit', passportConf.isAuthenticated, blogCtrl.getBlogIDEdit)
 app.post('/blog/:blogId/sync', passportConf.isAuthenticated, blogCtrl.postBlogIDSync)
 
+/**
+ * Users routes.
+ */
+app.get('/users', usersCtrl.getUsers)
+app.get('/users/manage', passportConf.isAuthenticated, usersCtrl.getUsersManage)
+app.post('/users/manage', passportConf.isAuthenticated, usersCtrl.postUsersManage)
+app.post('/users/sync', passportConf.isAuthenticated, usersCtrl.postUsersSync)
+app.get('/users/new', passportConf.isAuthenticated, usersCtrl.getUsersNew)
+app.post('/users/new', passportConf.isAuthenticated, usersCtrl.postUsersNew)
+app.get('/users/:userId', usersCtrl.getUsersID)
+app.post('/users/:userId', passportConf.isAuthenticated, usersCtrl.postUsersIDSettings)
+app.get('/users/:userId/settings', passportConf.isAuthenticated, usersCtrl.getUsersIDSettings)
+app.post('/users/:userId/sync', passportConf.isAuthenticated, usersCtrl.postUsersIDSync)
 
 /**
  * OAuth authentication routes. (Sign in)
  */
-app.get('/auth/instagram', passport.authenticate('instagram'))
-app.get('/auth/instagram/callback', passport.authenticate('instagram', { failureRedirect: '/login' }), function (req, res) {
-  res.redirect(req.session.returnTo || '/')
-})
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_location'] }))
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function (req, res) {
   res.redirect(req.session.returnTo || '/')
 })
-app.get('/auth/github', passport.authenticate('github'))
+app.get('/auth/github', passport.authenticate('github', {
+  scope: [
+    'user',
+    'repo',
+    'repo_deployment',
+    'repo:status',
+    'admin:repo_hook',
+    'admin:org_hook',
+    'read:org',
+    'write:org',
+    'admin:org'
+  ]
+}))
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), function (req, res) {
   res.redirect(req.session.returnTo || '/')
 })
@@ -240,31 +285,35 @@ app.use(errorHandler())
  * Check if brigade exists before starting Express server.
  */
 Brigade.find({slug: process.env.BRIGADE}, function (err, results) {
+  if (err) throw err
   if (!results.length) {
     console.log('No brigade with the slug ' + process.env.BRIGADE + ' found in database. Populating with default values.')
     var defaultBrigadeData = require('./config/default-brigade')()
+    defaultBrigadeData.slug = process.env.BRIGADE
     brigadeDetails = defaultBrigadeData
     var defaultBrigade = new Brigade(defaultBrigadeData)
     defaultBrigade.save(function (err) {
-      if (err) return handleError(err)
+      if (err) throw err
       console.log('Default Brigade populated into database.')
+      DB_INSTANTIATED = true
       startServer()
     })
   } else {
+    DB_INSTANTIATED = true
     brigadeDetails = results[0]
     startServer()
   }
 })
 function startServer () {
   app.use(sass({
-    src: path.join(__dirname, 'themes/'+brigadeDetails.theme.slug+'/public'),
-    dest: path.join(__dirname, 'themes/'+brigadeDetails.theme.slug+'/public'),
+    src: path.join(__dirname, 'themes/' + brigadeDetails.theme.slug + '/public'),
+    dest: path.join(__dirname, 'themes/' + brigadeDetails.theme.slug + '/public'),
     debug: true,
     sourceMap: true,
     outputStyle: 'expanded'
   }))
-  app.use(favicon(path.join(__dirname, 'themes/'+brigadeDetails.theme.slug+'/public', 'favicon.png')))
-  app.use(express.static(path.join(__dirname, 'themes/'+brigadeDetails.theme.slug+'/public'), { maxAge: 31557600000 }))
+  app.use(favicon(path.join(__dirname, 'themes/' + brigadeDetails.theme.slug + '/public', 'favicon.png')))
+  app.use(express.static(path.join(__dirname, 'themes/' + brigadeDetails.theme.slug + '/public'), { maxAge: 31557600000 }))
   app.listen(app.get('port'), function () {
     console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'))
   })

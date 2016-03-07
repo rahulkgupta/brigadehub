@@ -11,10 +11,11 @@ var brigadeSchema = new mongoose.Schema({
   },
   url: String,
   github: String,
+  meetup: String,
   theme: {
     slug: String,
     logo: String,
-    show:{
+    show: {
       title: Boolean,
       events: Boolean,
       projects: Boolean,

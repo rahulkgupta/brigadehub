@@ -4,7 +4,7 @@ module.exports = function () {
   var auditDate = moment().format('YYYY-MM-DD HH:mm:ss')
   return {
     name: 'Code for Example',
-    slug: 'code-for-example',
+    slug: 'brigadehub-dev',
     recoveryEmail: 'admin@codeforexample.org',
     location: {
       general: '',
@@ -12,11 +12,11 @@ module.exports = function () {
       geo: ''
     },
     url: 'http://codeforexample.org',
-    github: 'codeforexample',
+    github: 'brigadehub-dev',
     theme: {
       slug: 'atl',
       logo: '',
-      show:{
+      show: {
         title: true,
         events: true,
         projects: true,
