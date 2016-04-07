@@ -1,3 +1,5 @@
+
+/* global SimpleMDE */
 var $ = window.jQuery
 $(document).ready(function () {
   console.log('running')
@@ -7,4 +9,19 @@ $(document).ready(function () {
       events: window._events
     })
   }
+  $(window).on('scroll', function (event) {
+    var scroll = $(window).scrollTop()
+    console.log(scroll)
+    if (scroll > 10) {
+      $('body').addClass('scroll')
+    } else {
+      $('body').removeClass('scroll')
+    }
+  })
+  var editor = new SimpleMDE({
+    element: $('.simple-mde')[0],
+    forceSync: true,
+    indentWithTabs: false
+  })
+  console.log(editor)
 })

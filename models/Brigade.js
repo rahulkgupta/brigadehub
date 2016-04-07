@@ -3,11 +3,13 @@ var mongoose = require('mongoose')
 var brigadeSchema = new mongoose.Schema({
   name: String,
   slug: String,
+  heroImage: String,
   recoveryEmail: String,
   location: {
     general: String,
     specific: String,
-    geo: String
+    geo: String,
+    timezone: String
   },
   url: String,
   github: String,
@@ -38,12 +40,16 @@ var brigadeSchema = new mongoose.Schema({
       clientSecret: String
     },
     meetup: {
-      clientId: String,
-      clientSecret: String
+      consumerKey: String,
+      consumerSecret: String
     },
     google: {
       clientId: String,
       clientSecret: String
+    },
+    email: {
+      user: String,
+      password: String
     }
   },
   auditLog: Array

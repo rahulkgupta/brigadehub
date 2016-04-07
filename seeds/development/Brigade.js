@@ -1,8 +1,9 @@
 var moment = require('moment')
+var faker = require('faker')
 
 module.exports = function () {
   var auditDate = moment().format('YYYY-MM-DD HH:mm:ss')
-  return {
+  return [{
     name: 'Code for Example',
     slug: 'codeforexample',
     recoveryEmail: 'admin@codeforexample.org',
@@ -11,7 +12,7 @@ module.exports = function () {
       specific: '',
       geo: ''
     },
-    heroImage: 'https://i.imgur.com/m7omd0N.jpg',
+    heroImage: faker.image.city(1080, 399),
     url: 'http://codeforexample.org',
     github: 'codeforexample',
     theme: {
@@ -51,5 +52,5 @@ module.exports = function () {
     auditLog: [
       'initial | ' + auditDate + ' | added default brigade details from `config/default-brigade.js`'
     ]
-  }
+  }]
 }

@@ -84,6 +84,8 @@ module.exports = {
       user.profile.gender = req.body.gender || ''
       user.profile.location = req.body.location || ''
       user.profile.website = req.body.website || ''
+      user.profile.position = req.body.position || ''
+      user.profile.showcontact = req.body['showcontact'] === 'on'
       user.save(function (err) {
         if (err) {
           return next(err)
@@ -99,14 +101,19 @@ module.exports = {
    * Delete user account.
    */
   postDeleteAccount: function (req, res, next) {
-    Users.remove({ _id: req.user.id }, function (err) {
-      if (err) {
-        return next(err)
-      }
-      req.logout()
-      req.flash('info', { msg: 'Your account has been deleted.' })
-      res.redirect('/')
-    })
+    if (req.body['verify-account-deletion-string'] === 'delete my account') {
+      Users.remove({ _id: req.user.id }, function (err) {
+        if (err) {
+          return next(err)
+        }
+        req.logout()
+        req.flash('info', { msg: 'Your account has been deleted.' })
+        res.redirect('/')
+      })
+    } else {
+      req.flash('info', { msg: 'You didn\'t type the required phrase, so your account was not deleted.' })
+      res.redirect('back')
+    }
   },
 
   /**
@@ -192,7 +199,7 @@ module.exports = {
    * Update all Users.
    */
   postUsersManage: function (req, res) {
-    res.redirect('users/manage')
+    res.redirect('/users/manage')
   },
   /**
    * GET /users/new
@@ -209,7 +216,7 @@ module.exports = {
    * Submit New Users.
    */
   postUsersNew: function (req, res) {
-    res.redirect('users/new')
+    res.redirect('/users/new')
   },
 
   /**
@@ -239,7 +246,7 @@ module.exports = {
    * Submit IDSettings Users.
    */
   postUsersIDSettings: function (req, res) {
-    res.redirect('users/:userID/settings')
+    res.redirect('/users/:userID/settings')
   },
   /**
    * POST /users/sync
@@ -256,6 +263,31 @@ module.exports = {
    * Submit IDSettings Users.
    */
   postUsersIDSync: function (req, res) {
-    res.redirect('users/:userID/settings')
+    res.redirect('/users/:userID/settings')
+  },
+  /**
+   * Get /auth/disconnect/:service
+   * Disconnect a passport service
+   */
+  disconnectService: function (req, res, next) {
+    var service = req.params.service
+    if (service === 'github') {
+      req.flash('errors', { msg: 'Cannot disconnect Github account. Delete brigadehub account if you wish to disconnect.' })
+      return res.redirect('/account')
+    }
+    console.log('removing', service, 'service')
+    Users.findById(req.user.id, function (err, user) {
+      if (err) {
+        return next(err)
+      }
+      user.tokens = _.reject(user.tokens, { kind: service })
+      user.save(function (err) {
+        if (err) {
+          return next(err)
+        }
+        req.flash('success', { msg: 'Disconnected ' + service + ' service.' })
+        res.redirect('/account')
+      })
+    })
   }
 }

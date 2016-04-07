@@ -35,33 +35,19 @@ var userSchema = new mongoose.Schema({
     gender: { type: String, default: '' },
     location: { type: String, default: '' },
     website: { type: String, default: '' },
-    picture: { type: String, default: '' }
+    picture: { type: String, default: '' },
+    showcontact: { type: Boolean, default: true },
+    position: { type: String, default: '' }
   },
   resetPasswordToken: String,
   resetPasswordExpires: Date
 })
 
 /**
- * Password hash middleware.
+ * middleware.
  */
 userSchema.pre('save', function (next) {
-  /* var user = this*/
   return next()
-  /* if (!user.isModified('password')) {
-    return next()
-  }
-  bcrypt.genSalt(10, function (err, salt) {
-    if (err) {
-      return next(err)
-    }
-    bcrypt.hash(user.password, salt, null, function (err, hash) {
-      if (err) {
-        return next(err)
-      }
-      user.password = hash
-      next()
-    })
-  })*/
 })
 
 /**
@@ -88,6 +74,16 @@ userSchema.methods.gravatar = function (size) {
   }
   var md5 = crypto.createHash('md5').update(this.email).digest('hex')
   return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro'
+}
+
+/**
+ * Helper method to see if auth is authorized
+ */
+userSchema.methods.checkAuth = function (authName) {
+  if (_.filter(this.tokens, { kind: authName }).length) {
+    return true
+  }
+  return false
 }
 userSchema.statics.fetchGithubUsers = function (brigade, user, cb) {
   var Users = this
@@ -148,7 +144,7 @@ userSchema.statics.fetchGithubUsers = function (brigade, user, cb) {
   })
 }
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('Users', userSchema)
 
 function getUsers (url, aggregate, user, callback) {
   var headers = _.cloneDeep(defaultHeaders)
