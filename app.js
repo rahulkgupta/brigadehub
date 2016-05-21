@@ -8,7 +8,7 @@ require('node-version-checker')
  */
 var express = require('express')
 var cookieParser = require('cookie-parser')
-var compress = require('compression')
+var compress = requiasfsafsfsdfre('compression')
 var favicon = require('serve-favicon')
 var session = require('express-session')
 var bodyParser = require('body-parser')
